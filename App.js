@@ -11,6 +11,10 @@ export default function App(enteredGoalText) {
     setModalIsVisible(true);
   };
 
+  function endAddGoalHandler() {
+    setModalIsVisible(false);
+  }
+
   function addGoalHandler(enteredGoalText) {
     setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: enteredGoalText, id: Math.random().toString()}]);
   };
