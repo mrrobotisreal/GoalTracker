@@ -7,26 +7,25 @@ export default function App(enteredGoalText) {
   const [ courseGoals, setCourseGoals ] = useState([]);
 
   function addGoalHandler(enteredGoalText) {
-    setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: enteredGoalText, key: Math.random().toString()}]);
+    setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: enteredGoalText, id: Math.random().toString()}]);
+  };
+
+  function deleteGoalHandler(id) {
+    setCourseGoals(currentCourseGoals => {
+      return currentCourseGoals.filter((goal) => goal.id !== id);
+    })
   };
 
 
   return (
     <View style={styles.appContainer}>
-      {/* <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Your Course Goal!"
-          onChangeText={goalInputHandler}
-        />
-        <Button title="Add Goal" onPress={addGoalHandler} />
-      </View> */}
       <GoalInput onAddGoal={addGoalHandler}  />
       <View style={styles.goalsContainer}>
         <FlatList data={courseGoals} renderItem={itemData => {
           itemData.index
           return (
-            <GoalItem text={itemData.item.text} />
+            <GoalItem text={itemData.item.text} onDeleteItem={deleteGoalHandler}
+              id={itemData.item.id} />
           );
         }} />
       </View>
