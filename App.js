@@ -1,41 +1,34 @@
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, TextInput, View, Button, FlatList } from 'react-native';
+import GoalItem from './components/GoalItem';
+import GoalInput from './components/GoalInput';
 
-export default function App() {
-  const [ enteredGoalText, setEnteredGoalText ] = useState('');
+export default function App(enteredGoalText) {
   const [ courseGoals, setCourseGoals ] = useState([]);
 
-  function goalInputHandler(enteredText) {
-    console.log(enteredText);
-    setEnteredGoalText(enteredText);
-  };
-
-  function addGoalHandler() {
-    console.log(enteredGoalText);
-    setCourseGoals(currentCourseGoals => [...currentCourseGoals, enteredGoalText]);
+  function addGoalHandler(enteredGoalText) {
+    setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: enteredGoalText, key: Math.random().toString()}]);
   };
 
 
   return (
     <View style={styles.appContainer}>
-      <View style={styles.inputContainer}>
+      {/* <View style={styles.inputContainer}>
         <TextInput
           style={styles.textInput}
           placeholder="Your Course Goal!"
           onChangeText={goalInputHandler}
         />
         <Button title="Add Goal" onPress={addGoalHandler} />
-      </View>
+      </View> */}
+      <GoalInput onAddGoal={addGoalHandler}  />
       <View style={styles.goalsContainer}>
-        <FlatList>
-          {courseGoals.map((goal, index) => {
-            return (
-              <View key={index} style={styles.goalList}>
-                <Text style={styles.goalText} key={index}>{goal}</Text>
-              </View>
-            );
-          })}
-        </FlatList>
+        <FlatList data={courseGoals} renderItem={itemData => {
+          itemData.index
+          return (
+            <GoalItem text={itemData.item.text} />
+          );
+        }} />
       </View>
     </View>
   );
@@ -48,35 +41,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     backgroundColor: 'black',
   },
-  inputContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderColor: '#cccccc',
-  },
-  textInput: {
-    borderWidth: 1,
-    borderColor: '#cccccc',
-    width: '70%',
-    marginRight: 8,
-    padding: 8,
-    color: 'white',
-  },
   goalsContainer: {
     flex: 5,
   },
-  goalList: {
-    backgroundColor: '#5e0acc',
-    margin: 8,
-    padding: 8,
-    borderWidth: 2,
-    borderColor: 'white',
-    borderRadius: 6,
-  },
-  goalText: {
-    color: 'white',
-  }
 });
