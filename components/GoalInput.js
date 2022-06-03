@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { StyleSheet, View, Button, TextInput, Modal } from 'react-native';
+import { StyleSheet, View, Button, TextInput, Modal, Image } from 'react-native';
 
 function GoalInput(props) {
   const [ enteredGoalText, setEnteredGoalText ] = useState('');
+  const { onAddGoal, onCancel } = props;
 
   function goalInputHandler(enteredText) {
     console.log(enteredText);
@@ -10,13 +11,14 @@ function GoalInput(props) {
   };
 
   function addGoalHandler(props) {
-    props.onAddGoal(enteredGoalText);
+    onAddGoal(enteredGoalText);
     setEnteredGoalText('');
   };
 
   return (
     <Modal visible={props.visible} animationType="slide">
       <View style={styles.inputContainer}>
+        <Image source={require('../assets/images/goal.png')} style={styles.image} />
         <TextInput
           style={styles.textInput}
           placeholder="Your Course Goal!"
@@ -25,10 +27,10 @@ function GoalInput(props) {
         />
         <View style={styles.buttonContainer}>
           <View style={styles.button}>
-            <Button title="Add Goal" onPress={addGoalHandler} />
+            <Button title="Add Goal" onPress={addGoalHandler} color="#b180f0" />
           </View>
           <View style={styles.button}>
-            <Button title="Cancel" />
+            <Button title="Cancel" onPress={onCancel} color="#f31282" />
           </View>
         </View>
       </View>
@@ -44,16 +46,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
-    marginBottom: 24,
-    borderBottomWidth: 1,
-    borderColor: '#cccccc',
+    backgroundColor: '#311b6b',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 20,
+    borderRadius: 12,
   },
   textInput: {
     borderWidth: 1,
-    borderColor: '#cccccc',
+    borderColor: '#e4d0ff',
+    backgroundColor: '#e4d0ff',
     width: '100%',
-    padding: 8,
-    color: 'white',
+    padding: 16,
+    color: '#120438',
+    borderRadius: 6,
   },
   buttonContainer: {
     flexDirection: 'row',
