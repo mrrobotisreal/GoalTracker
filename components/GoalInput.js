@@ -6,7 +6,6 @@ function GoalInput(props) {
   const { onAddGoal, onCancel } = props;
 
   function goalInputHandler(enteredText) {
-    console.log(enteredText);
     setEnteredGoalText(enteredText);
   };
 
