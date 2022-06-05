@@ -50,6 +50,24 @@ export default function App(enteredGoalText) {
     };
   };
 
+  const getData = () => {
+    try {
+      await db.transaction(async (tx) => {
+        await tx.executeSql(`
+          SELECT * FROM goals;
+        `, [], (tx, results) => {
+          let len = results.rows.length;
+          if (len > 0) {
+            let goal = results.rows.item(0).goal;
+            console.log('getData goal be like -> ', goal);
+          }
+        });
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   function startAddGoalHandler() {
     setModalIsVisible(true);
   };
@@ -63,6 +81,7 @@ export default function App(enteredGoalText) {
       Alert.alert(`Can't Add Empty Goal!`, `Please make sure to write something before adding the goal.`);
     }
     setCourseGoals(currentCourseGoals => [...currentCourseGoals, {text: enteredGoalText, id: Math.random().toString()}]);
+    setData(enteredGoalText);
     endAddGoalHandler();
   };
 
